@@ -48,4 +48,20 @@ public class ControllerCliente {
         clienteRepository.save(cliente);
         return new ResponseEntity<>(cliente,HttpStatus.CREATED);
     }
+
+    @GetMapping(value = "/borrar/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Cliente> borrarPorDni(@PathVariable("id") Integer dni){
+        try{
+            Cliente cliente = clienteRepository.findById(dni).orElse(null);
+
+            if (cliente != null){
+                clienteRepository.delete(cliente);
+                return new ResponseEntity<>(cliente,HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(cliente,HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
