@@ -16,7 +16,7 @@ import java.util.List;
 public class ControllerCliente {
 
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
 
     @GetMapping(value = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Cliente>> buscarTodos(){
@@ -32,7 +32,12 @@ public class ControllerCliente {
     public ResponseEntity<Cliente> buscarClientePorDni(@PathVariable("id") int dni){
         try {
             Cliente cliente = clienteRepository.findById(dni).orElse(null);
-            return new ResponseEntity<>(cliente,HttpStatus.OK);
+            if (cliente != null) {
+                return new ResponseEntity<>(cliente,HttpStatus.OK);
+            }else {
+                return  new ResponseEntity<>(cliente,HttpStatus.NOT_FOUND);
+            }
+
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
