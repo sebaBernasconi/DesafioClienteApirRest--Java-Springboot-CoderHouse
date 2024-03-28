@@ -28,12 +28,9 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente editarClientePorDni(int dni, Cliente cliente,
-                                       String nuevoNombre, String nuevoApellido){
+    public Cliente editarClientePorDni(int dni, Cliente cliente){
         try {
             if (clienteRepository.existsById(dni)){
-                cliente.setNombre(nuevoNombre);
-                cliente.setApellido(nuevoApellido);
                 return clienteRepository.save(cliente);
             }
         }catch (Exception e){
